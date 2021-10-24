@@ -1,3 +1,4 @@
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -16,6 +17,11 @@ class SignInController extends GetxController {
 
   void resetValue() {
     emailController.text = "";
-     passwordController.text = "";
+    passwordController.text = "";
+  }
+
+  checkMetaMaskInstalled() async {
+    bool isInstalled = await DeviceApps.isAppInstalled('io.metamask');
+    print(isInstalled);
   }
 }

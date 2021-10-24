@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.brainshield">
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
    <application
         android:label="Brainsheild"
         android:icon="@mipmap/ic_launcher">

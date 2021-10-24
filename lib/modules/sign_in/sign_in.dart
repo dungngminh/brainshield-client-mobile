@@ -43,39 +43,6 @@ class SignInScreen extends GetWidget<SignInController> {
                 height: 20,
               ),
               SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: kSecondColor,
-                  ),
-                  child: TextFormField(
-                    style: GoogleFonts.openSans(
-                      color: kMainColor,
-                      fontWeight: FontWeight.w600,
-                      textBaseline: TextBaseline.alphabetic,
-                    ),
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      fillColor: kMainColor,
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: kMainColor,
-                      ),
-                      hintText: 'Email...',
-                      contentPadding: const EdgeInsets.only(right: 40),
-                      border: InputBorder.none,
-                      hintStyle: GoogleFonts.openSans(
-                        color: kMainColor,
-                        fontWeight: FontWeight.w500,
-                        textBaseline: TextBaseline.alphabetic,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
                 height: 15,
               ),
               SizedBox(
@@ -104,7 +71,7 @@ class SignInScreen extends GetWidget<SignInController> {
                               Icons.lock,
                               color: kMainColor,
                             ),
-                            hintText: 'Password...',
+                            hintText: 'Address...',
                             contentPadding: const EdgeInsets.only(right: 40),
                             border: InputBorder.none,
                             hintStyle: GoogleFonts.openSans(
@@ -172,7 +139,7 @@ class SignInScreen extends GetWidget<SignInController> {
                     onTap: () {
                       print("tap");
                       controller.resetValue();
-                      Get.toNamed(AppRoutes.rSignUp);
+                      controller.checkMetaMaskInstalled();
                     },
                     child: Text(
                       " Đăng ký",
