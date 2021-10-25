@@ -1,8 +1,6 @@
 import 'package:brainshield/core/theme.dart';
 import 'package:brainshield/modules/sign_in/sign_in_controller.dart';
-import 'package:brainshield/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -15,13 +13,15 @@ class SignInScreen extends GetWidget<SignInController> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 45, left: 40, right: 40),
+          padding: const EdgeInsets.only(top: 45, left: 30, right: 30),
           child: Column(
             children: [
               SizedBox(
                 height: 283,
                 width: 317,
-                child: SvgPicture.asset("assets/app1.svg"),
+                child: Image.asset(
+                  "assets/metamask.png",
+                ),
               ),
               Row(
                 children: [
@@ -29,10 +29,10 @@ class SignInScreen extends GetWidget<SignInController> {
                     width: 5,
                   ),
                   Text(
-                    "Đăng nhập".toUpperCase(),
+                    "Nhập Private Key".toUpperCase(),
                     style: GoogleFonts.openSans(
                       fontSize: 24,
-                      color: kMainColor,
+                      color: kColor4,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1,
                     ),
@@ -40,68 +40,68 @@ class SignInScreen extends GetWidget<SignInController> {
                 ],
               ),
               SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 15,
+                height: 25,
               ),
               SizedBox(
                 height: 50,
                 width: double.infinity,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: kSecondColor,
-                  ),
-                  child: Stack(
-                    children: [
-                      Obx(
-                        () => TextFormField(
-                          controller: controller.passwordController,
-                          style: GoogleFonts.openSans(
-                            color: kMainColor,
-                            fontWeight: FontWeight.w600,
-                            textBaseline: TextBaseline.alphabetic,
+                child: Stack(
+                  children: [
+                    Obx(
+                      () => TextFormField(
+                        controller: controller.privateKeyController,
+                        style: GoogleFonts.openSans(
+                          color: kColor4,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        obscureText: controller.isHidePassword.value,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide(
+                              color: kColor4,
+                            ),
                           ),
-                          textAlignVertical: TextAlignVertical.center,
-                          obscureText: controller.isHidePassword.value,
-                          decoration: InputDecoration(
-                            fillColor: kMainColor,
-                            prefixIcon: Icon(
-                              Icons.lock,
-                              color: kMainColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide(
+                              color: kColor4,
                             ),
-                            hintText: 'Address...',
-                            contentPadding: const EdgeInsets.only(right: 40),
-                            border: InputBorder.none,
-                            hintStyle: GoogleFonts.openSans(
-                              color: kMainColor,
-                              fontWeight: FontWeight.w500,
-                              textBaseline: TextBaseline.alphabetic,
-                            ),
+                          ),
+                          fillColor: kColor4,
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: kColor4,
+                          ),
+                          hintText: 'Private key...',
+                          contentPadding: const EdgeInsets.only(right: 45),
+                          hintStyle: GoogleFonts.openSans(
+                            color: kColor4,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          print("password hide on off");
-                          controller.turnOnOffHiddenPassword();
-                        },
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Obx(() => Icon(
-                                  controller.isHidePassword.value
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: kMainColor,
-                                )),
-                          ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        print("private key hide on off");
+                        controller.turnOnOffHiddenPassword();
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: Obx(() => Icon(
+                                controller.isHidePassword.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: kColor4,
+                              )),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -111,8 +111,8 @@ class SignInScreen extends GetWidget<SignInController> {
                 borderRadius: 35,
                 height: 55,
                 width: 330,
-                color: kMainColor,
-                successColor: kMainColor,
+                color: kColor4,
+                successColor: kColor4,
                 controller: controller.btnController,
                 onPressed: () {},
                 child: Text(
@@ -131,7 +131,7 @@ class SignInScreen extends GetWidget<SignInController> {
                   Text(
                     "Bạn là người dùng mới ?",
                     style: GoogleFonts.openSans(
-                      color: kMainColor,
+                      color: kColor4,
                       fontSize: 15,
                     ),
                   ),
@@ -142,9 +142,9 @@ class SignInScreen extends GetWidget<SignInController> {
                       controller.checkMetaMaskInstalled();
                     },
                     child: Text(
-                      " Đăng ký",
+                      " Đăng ký Metamask",
                       style: GoogleFonts.openSans(
-                        color: kMainColor,
+                        color: kColor4,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                       ),

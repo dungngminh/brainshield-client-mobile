@@ -39,6 +39,7 @@ dependencies:
   get: ^4.3.8
   web3dart: ^2.3.1
   device_apps: ^2.1.1
+  animated_text_kit: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/avatar/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
