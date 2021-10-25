@@ -13,20 +13,28 @@ class SignInScreen extends GetWidget<SignInController> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 45, left: 30, right: 30),
+          padding: const EdgeInsets.only(top: 45, left: 20, right: 20),
           child: Column(
             children: [
-              SizedBox(
-                height: 283,
-                width: 317,
-                child: Image.asset(
-                  "assets/metamask.png",
+              Row(children: [
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Icon(Icons.arrow_back, color: kColor4),
+                )
+              ]),
+              Center(
+                child: SizedBox(
+                  height: 283,
+                  width: 317,
+                  child: Image.asset(
+                    "assets/metamask.png",
+                  ),
                 ),
               ),
               Row(
                 children: [
                   SizedBox(
-                    width: 5,
+                    width: 20,
                   ),
                   Text(
                     "Nhập Private Key".toUpperCase(),
