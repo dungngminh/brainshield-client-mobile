@@ -1,4 +1,5 @@
-
+import 'package:brainshield/account/account.dart';
+import 'package:brainshield/account/account_binding.dart';
 import 'package:brainshield/modules/explorer_page/explorer_page.dart';
 import 'package:brainshield/modules/home/home.dart';
 import 'package:brainshield/modules/home/home_binding.dart';
@@ -24,6 +25,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.rExplorer,
       page: () => ExplorerPage(),
+    ),
+    GetPage(
+      name: AppRoutes.rAccount,
+      binding: AccountBinding(),
+      page: () => AccountScreen(),
     ),
   ];
 }

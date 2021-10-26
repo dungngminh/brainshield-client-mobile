@@ -52,9 +52,16 @@ class SignInController extends GetxController {
   }
 
   getAddress() async {
-    await EthProvider()
-        .getCredentials(privateKeyController.text)
-        .then((value) => print("oke"))
-        .onError((error, stackTrace) => print("error"));
+    await EthProvider().getCredentials(privateKeyController.text).then((value) {
+      print("oke");
+      btnController.success();
+      Future.delayed(Duration(seconds: 2))
+          .then((value) => Get.offNamed(AppRoutes.rAccount));
+    }).onError((error, stackTrace) {
+      print("error");
+      btnController.error();
+      Future.delayed(Duration(seconds: 2))
+          .then((value) => btnController.reset());
+    });
   }
 }

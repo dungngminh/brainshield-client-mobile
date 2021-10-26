@@ -1,5 +1,6 @@
 import 'package:brainshield/core/theme.dart';
 import 'package:brainshield/routes/app_pages.dart';
+import 'package:brainshield/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -20,45 +21,8 @@ class ExplorerPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 45,
-                        width: 45,
-                        child: CircleAvatar(
-                          backgroundImage: Image.asset("assets/logo.png").image,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        "Brainshield",
-                        style: GoogleFonts.openSans(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: kColor8,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.rSignIn),
-                  child: SizedBox(
-                    width: 45,
-                    height: 45,
-                    child: CircleAvatar(
-                      backgroundImage: Image.asset('assets/metamask.png').image,
-                    ),
-                  ),
-                ),
-              ],
+            Header(
+              isHomePage: false
             ),
             SizedBox(
               height: 5,
@@ -125,7 +89,12 @@ class ExplorerPage extends StatelessWidget {
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        CircleAvatar(),
+                                                        CircleAvatar(
+                                                          backgroundImage:
+                                                              Image.network(
+                                                                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png")
+                                                                  .image,
+                                                        ),
                                                         SizedBox(
                                                           width: 10,
                                                         ),
@@ -140,7 +109,7 @@ class ExplorerPage extends StatelessWidget {
                                                                 .openSans(
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
+                                                                      .w600,
                                                               fontSize: 17,
                                                             ),
                                                           ),
@@ -158,7 +127,7 @@ class ExplorerPage extends StatelessWidget {
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: GoogleFonts.openSans(
-                                                    fontWeight: FontWeight.bold,
+                                                    fontWeight: FontWeight.w800,
                                                     fontSize: 18,
                                                   ),
                                                 ),
@@ -240,3 +209,4 @@ class ExplorerPage extends StatelessWidget {
     );
   }
 }
+

@@ -2,6 +2,7 @@
 	"compiler": {
 		"version": "0.8.7+commit.e28d00a7"
 	},
+	"contractName": "PictureAssets",
 	"language": "Solidity",
 	"output": {
 		"abi": [

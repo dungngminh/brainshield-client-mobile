@@ -1,12 +1,14 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:brainshield/core/theme.dart';
+import 'package:brainshield/modules/home/home_controller.dart';
 import 'package:brainshield/routes/app_pages.dart';
+import 'package:brainshield/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetWidget<HomeController> {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -16,43 +18,7 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.only(top: 40.0, left: 15, right: 15),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 45,
-                      width: 45,
-                      child: CircleAvatar(
-                        backgroundImage: Image.asset("assets/logo.png").image,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Text(
-                      "Brainshield",
-                      style: GoogleFonts.openSans(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: kColor8,
-                      ),
-                    ),
-                  ],
-                ),
-                GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.rSignIn),
-                  child: SizedBox(
-                    width: 45,
-                    height: 45,
-                    child: CircleAvatar(
-                      backgroundImage: Image.asset('assets/metamask.png').image,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            Header(),
             SizedBox(
               height: 240,
             ),
@@ -140,16 +106,21 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      "Khám phá tác phẩm",
-                      style: GoogleFonts.openSans(fontStyle: FontStyle.italic),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
                     GestureDetector(
                       onTap: () => Get.toNamed(AppRoutes.rExplorer),
-                      child: Icon(Icons.expand_more),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Khám phá tác phẩm",
+                            style: GoogleFonts.openSans(
+                                fontStyle: FontStyle.italic),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Icon(Icons.expand_more),
+                        ],
+                      ),
                     ),
                   ],
                 ),

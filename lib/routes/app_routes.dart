@@ -5,4 +5,5 @@ abstract class AppRoutes {
   static const rSignUp = '/sign_up';
   static const rHome = '/home';
   static const rExplorer = '/explorer';
+  static const rAccount = '/account';
 }
