@@ -14,7 +14,7 @@ class AccountController extends GetxController {
   }
 
   getPictureCount() async {
-    await EthProvider().getPictureCount(address.value).then((value) {
+    await EthProvider().getPictureCount().then((value) {
       pictureCount(value);
       status(Status.done);
     });
