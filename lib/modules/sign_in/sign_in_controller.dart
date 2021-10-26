@@ -1,7 +1,12 @@
+import 'package:brainshield/core/theme.dart';
+import 'package:brainshield/data/eth_provider.dart';
 import 'package:brainshield/routes/app_pages.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:open_store/open_store.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class SignInController extends GetxController {
@@ -23,9 +28,33 @@ class SignInController extends GetxController {
     Get.toNamed(AppRoutes.rHome);
   }
 
-  checkMetaMaskInstalled() async {
+  checkMetaMaskInstalled(BuildContext context) async {
     bool isInstalled = await DeviceApps.isAppInstalled('io.metamask');
-    DeviceApps.openApp('io.metamask');
     print(isInstalled);
+    if (isInstalled) {
+      DeviceApps.openApp('io.metamask');
+    } else {
+      try {
+        OpenStore.instance.open(androidAppBundleId: 'io.metamask');
+      } catch (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Có lỗi xảy ra vui long thử lại",
+              style: GoogleFonts.openSans(
+                color: kColor4,
+              ),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  getAddress() async {
+    await EthProvider()
+        .getCredentials(privateKeyController.text)
+        .then((value) => print("oke"))
+        .onError((error, stackTrace) => print("error"));
   }
 }

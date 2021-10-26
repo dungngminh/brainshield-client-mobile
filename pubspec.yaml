@@ -40,6 +40,10 @@ dependencies:
   web3dart: ^2.3.1
   device_apps: ^2.1.1
   animated_text_kit: ^4.2.1
+  web_socket_channel: ^2.1.0
+  http: ^0.13.4
+  flutter_staggered_animations: ^1.0.0
+  open_store: ^0.2.4
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +70,7 @@ flutter:
   assets:
     - assets/
     - assets/avatar/
+    - src/artifacts/PictureAssets.json
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

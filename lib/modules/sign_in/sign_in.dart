@@ -52,7 +52,7 @@ class SignInScreen extends GetWidget<SignInController> {
               ),
               SizedBox(
                 height: 50,
-                width: double.infinity,
+                width: 330,
                 child: Stack(
                   children: [
                     Obx(
@@ -122,7 +122,7 @@ class SignInScreen extends GetWidget<SignInController> {
                 color: kColor4,
                 successColor: kColor4,
                 controller: controller.btnController,
-                onPressed: () {},
+                onPressed: () => controller.getAddress(),
                 child: Text(
                   "Đăng nhập".toUpperCase(),
                   style: GoogleFonts.openSans(
@@ -147,7 +147,7 @@ class SignInScreen extends GetWidget<SignInController> {
                     onTap: () {
                       print("tap");
                       controller.resetValue();
-                      controller.checkMetaMaskInstalled();
+                      controller.checkMetaMaskInstalled(context);
                     },
                     child: Text(
                       " Đăng ký Metamask",

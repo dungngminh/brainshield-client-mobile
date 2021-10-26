@@ -1,4 +1,5 @@
-import 'package:brainshield/modules/dashboard/dashboard.dart';
+
+import 'package:brainshield/modules/explorer_page/explorer_page.dart';
 import 'package:brainshield/modules/home/home.dart';
 import 'package:brainshield/modules/home/home_binding.dart';
 import 'package:brainshield/modules/sign_in/sign_in.dart';
@@ -21,8 +22,8 @@ class AppPages {
       binding: HomeBinding(),
     ),
     GetPage(
-      name: AppRoutes.rDashboard,
-      page: () => Dashboard(),
+      name: AppRoutes.rExplorer,
+      page: () => ExplorerPage(),
     ),
   ];
 }
