@@ -1,4 +1,4 @@
-import 'package:brainshield/data/eth_provider.dart';
+import 'package:brainshield/data/remote/eth_provider.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {

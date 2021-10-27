@@ -86,7 +86,7 @@ class SignInScreen extends GetWidget<SignInController> {
                           contentPadding: const EdgeInsets.only(right: 45),
                           hintStyle: GoogleFonts.openSans(
                             color: kColor4,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -122,7 +122,7 @@ class SignInScreen extends GetWidget<SignInController> {
                 color: kColor4,
                 successColor: kColor4,
                 controller: controller.btnController,
-                onPressed: () => controller.getAddress(),
+                onPressed: () => controller.getAddress(context),
                 child: Text(
                   "Đăng nhập".toUpperCase(),
                   style: GoogleFonts.openSans(

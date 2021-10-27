@@ -60,7 +60,7 @@ class HomePage extends GetWidget<HomeController> {
                     Text(
                       "Application transparency of copyright ownership\nby blockchain technology and NFT.",
                       style: GoogleFonts.openSans(
-                        fontSize: 16,
+                        fontSize: 15,
                       ),
                       textAlign: TextAlign.center,
                     ),

@@ -5,8 +5,8 @@ import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
 class EthProvider {
-  Client? httpClient;
-  Web3Client? ethClient;
+  late Client httpClient;
+  late Web3Client ethClient;
   Credentials? _credentials;
   EthereumAddress? _ownAddress;
   String? _address;
@@ -24,7 +24,7 @@ class EthProvider {
     httpClient = Client();
     ethClient = Web3Client(
         "https://ropsten.infura.io/v3/241f03331919423cba6145c7a2bcc61a",
-        httpClient!);
+        httpClient);
   }
 
   Future<DeployedContract> loadContract() async {
@@ -50,13 +50,13 @@ class EthProvider {
   Future<List<dynamic>> query(String functionName, List<dynamic> params) async {
     final contract = await loadContract();
     final ethFunction = contract.function(functionName);
-    final result = await ethClient!
+    final result = await ethClient
         .call(contract: contract, function: ethFunction, params: params);
     return result;
   }
 
   Future<String> getPictureCount() async {
     List<dynamic> result = await query('pictureCount', []);
-    return result[0];
+    return result.first.toInt().toString();
   }
 }

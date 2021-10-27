@@ -1,12 +1,12 @@
 import 'package:brainshield/core/theme.dart';
-import 'package:brainshield/routes/app_pages.dart';
+import 'package:brainshield/modules/explorer_page/explorer_controller.dart';
 import 'package:brainshield/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ExplorerPage extends StatelessWidget {
+class ExplorerPage extends GetView<ExplorerController> {
   const ExplorerPage({Key? key}) : super(key: key);
 
   @override
@@ -21,9 +21,7 @@ class ExplorerPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Header(
-              isHomePage: false
-            ),
+            Header(isHomePage: false),
             SizedBox(
               height: 5,
             ),
@@ -64,8 +62,8 @@ class ExplorerPage extends StatelessWidget {
                                             width: 170,
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
-                                                image: Image.asset(
-                                                        "assets/avatar/linh.jpg")
+                                                image: Image.network(
+                                                        "https://bafybeif4hfbzadgqmy4a6rjmb7lgrn7w3rbocng3iuqjc3cmqn6v7irhfm.ipfs.infura-ipfs.io/")
                                                     .image,
                                               ),
                                             ),
@@ -209,4 +207,3 @@ class ExplorerPage extends StatelessWidget {
     );
   }
 }
-

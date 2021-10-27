@@ -1,5 +1,5 @@
 import 'package:brainshield/core/theme.dart';
-import 'package:brainshield/data/eth_provider.dart';
+import 'package:brainshield/data/remote/eth_provider.dart';
 import 'package:brainshield/routes/app_pages.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,17 +51,37 @@ class SignInController extends GetxController {
     }
   }
 
-  getAddress() async {
-    await EthProvider().getCredentials(privateKeyController.text).then((value) {
-      print("oke");
-      btnController.success();
-      Future.delayed(Duration(seconds: 2))
-          .then((value) => Get.offNamed(AppRoutes.rAccount));
-    }).onError((error, stackTrace) {
-      print("error");
+  getAddress(BuildContext context) async {
+    if (privateKeyController.text == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Text(
+            "Vui lòng không được để trống",
+            style: GoogleFonts.openSans(
+              color: kColor4,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
       btnController.error();
       Future.delayed(Duration(seconds: 2))
           .then((value) => btnController.reset());
-    });
+    } else {
+      await EthProvider()
+          .getCredentials(privateKeyController.text)
+          .then((value) {
+        print("oke");
+        btnController.success();
+        Future.delayed(Duration(seconds: 2))
+            .then((value) => Get.offNamed(AppRoutes.rAccount));
+      }).onError((error, stackTrace) {
+        print("error");
+        btnController.error();
+        Future.delayed(Duration(seconds: 2))
+            .then((value) => btnController.reset());
+      });
+    }
   }
 }
