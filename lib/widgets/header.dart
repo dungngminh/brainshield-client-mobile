@@ -17,7 +17,7 @@ class Header extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: () => isHomePage ? {} : Get.back(),
+          onTap: () => isHomePage ? {} : Get.toNamed(AppRoutes.rHome),
           child: Row(
             children: [
               SizedBox(

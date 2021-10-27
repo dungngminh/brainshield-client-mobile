@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -20,5 +21,16 @@ class IPFSProvider {
       print(responce.body);
       throw Exception("Can not get picture");
     }
+  }
+
+  Future<String> uploadImage(String filename, File file) async {
+    var request = http.MultipartRequest(
+        "POST", Uri.parse("https://ipfs.infura.io:5001/api/v0/add"));
+    var pic = await http.MultipartFile.fromPath(filename, file.path);
+    request.files.add(pic);
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseString = String.fromCharCodes(responseData);
+    return responseString;
   }
 }
