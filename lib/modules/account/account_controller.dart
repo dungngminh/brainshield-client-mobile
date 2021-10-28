@@ -1,90 +1,77 @@
-import 'dart:io';
-
-import 'package:brainshield/core/theme.dart';
-import 'package:brainshield/data/ipfs_repo.dart';
 import 'package:brainshield/data/remote/eth_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum Status { loading, error, done }
 
 class AccountController extends GetxController {
   var address = "".obs;
-  var balance = "".obs;
+  var balance = 0.0.obs;
   final status = Status.loading.obs;
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final RoundedLoadingButtonController btnController =
-      RoundedLoadingButtonController();
-
-
-  String? category;
-  File? file;
-  PlatformFile? platformFile;
 
   @override
-  void onReady() {
+  Future<void> onInit() async {
     super.onInit();
-    address.value = EthProvider().address!;
+    address.value = EthProvider().address;
+    await getBalance();
   }
 
   getBalance() async {
+    status(Status.loading);
     await EthProvider().getBalance().then((value) {
-      balance("$value");
+      balance(value as double);
       status(Status.done);
     });
-    update();
   }
 
-
-
-  selectFile() async {
-    final _file = await FilePicker.platform.pickFiles(
-        type: FileType.custom, allowedExtensions: ['png', 'jpg', 'jpeg']);
-
-    if (_file != null) {
-      file = File(_file.files.single.path!);
-      platformFile = _file.files.first;
-      update();
-    }
-  }
-
-  createPicture(BuildContext context) async {
-    if (nameController.text == "" ||
-        descriptionController.text == "" ||
-        file == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          content: Text(
-            "Vui lòng không được để trống",
-            style: GoogleFonts.openSans(
-              color: kColor4,
-              fontWeight: FontWeight.bold,
+  showQRCode(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("QR Code", style: GoogleFonts.openSans(fontSize: 24)),
+                QrImage(
+                  data: address.value,
+                  version: QrVersions.auto,
+                  size: 200.0,
+                ),
+                TextButton(onPressed: () => Get.back(), child: Text("Hủy")),
+              ],
             ),
-          ),
-        ),
-      );
-    } else {
-      String hashCodeImage =
-          await IPFSRepository().uploadImage(platformFile!.name, file!);
-      await EthProvider().createPicture(hashCodeImage, nameController.text,
-          descriptionController.text, BigInt.from(0));
-    }
+          );
+        });
   }
 
-  removeFile() {
-    file = null;
-    platformFile = null;
-    update();
+  openURl() async {
+    await canLaunch("https://ropsten.etherscan.io/address/${address.value}")
+        ? await launch("https://ropsten.etherscan.io/address/${address.value}")
+        : Fluttertoast.showToast(
+            msg: "Không thể truy cập địa chỉ",
+            toastLength: Toast.LENGTH_SHORT,
+            backgroundColor: Colors.grey,
+            textColor: Colors.white,
+          );
   }
 
-  categorySelected(String newValue) {
-    category = newValue;
-    update();
+  copyAddress() {
+    Clipboard.setData(
+      ClipboardData(text: address.value),
+    ).then(
+      (value) => Fluttertoast.showToast(
+        msg: "Đã copy địa chỉ",
+        toastLength: Toast.LENGTH_SHORT,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+      ),
+    );
   }
 }

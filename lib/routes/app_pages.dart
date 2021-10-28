@@ -1,9 +1,13 @@
 import 'package:brainshield/modules/account/account.dart';
 import 'package:brainshield/modules/account/account_binding.dart';
+import 'package:brainshield/modules/add_product/add_product.dart';
+import 'package:brainshield/modules/add_product/add_product_binding.dart';
 import 'package:brainshield/modules/explorer_page/explorer_binding.dart';
 import 'package:brainshield/modules/explorer_page/explorer_page.dart';
 import 'package:brainshield/modules/home/home.dart';
 import 'package:brainshield/modules/home/home_binding.dart';
+import 'package:brainshield/modules/my_product/my_product.dart';
+import 'package:brainshield/modules/my_product/my_product_binding.dart';
 import 'package:brainshield/modules/sign_in/sign_in.dart';
 import 'package:brainshield/modules/sign_in/sign_in_binding.dart';
 import 'package:get/get.dart';
@@ -32,6 +36,16 @@ class AppPages {
       name: AppRoutes.rAccount,
       binding: AccountBinding(),
       page: () => AccountScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.rAddProduct,
+      binding: AddProductBinding(),
+      page: () => AddProductScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.rMyProduct,
+      binding: MyProductBinding(),
+      page: () => MyProductScreen(),
     ),
   ];
 }

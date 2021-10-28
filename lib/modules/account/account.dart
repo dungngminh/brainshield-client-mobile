@@ -1,11 +1,9 @@
 import 'package:brainshield/modules/account/account_controller.dart';
 import 'package:brainshield/core/theme.dart';
-import 'package:dotted_border/dotted_border.dart';
+import 'package:brainshield/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AccountScreen extends GetWidget<AccountController> {
   const AccountScreen({Key? key}) : super(key: key);
@@ -13,228 +11,177 @@ class AccountScreen extends GetWidget<AccountController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-          child: Column(
-            children: [
-              Obx(() => Text(controller.address.value)),
-              
-              Obx(() {
-                final status = controller.status.value;
-                if (status == Status.loading) {
-                  return CircularProgressIndicator();
-                } else {
-                  return Text(controller.balance.value);
-                }
-              }),
-              TextButton(
-                onPressed: () {
-                  controller.getBalance();
-     
-                },
-                child: Text("Get picture count"),
-              ),
-
-              SizedBox(
-                height: 15,
-              ),
-              TextField(
-                controller: controller.nameController,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  hintText: 'Tên sản phẩm',
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              TextField(
-                controller: controller.descriptionController,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  hintText: 'Mô tả',
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: GetBuilder<AccountController>(builder: (controller) {
-                  return DropdownButton<String>(
-                    hint: Text("Thể loại"),
-                    alignment: Alignment.centerLeft,
-                    isExpanded: true,
-                    value: controller.category,
-                    iconSize: 24,
-                    elevation: 16,
-                    underline: Container(
-                      height: 2,
-                      color: kColor4,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 45.0),
+          child: RefreshIndicator(
+            onRefresh: () => controller.getBalance(),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () => Get.back(),
+                      icon: Icon(Icons.arrow_back, color: kColor4),
                     ),
-                    onChanged: (String? newValue) =>
-                        controller.categorySelected(newValue!),
-                    items: <String>['Art', 'Blog', 'Music']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value, style: GoogleFonts.openSans()),
-                      );
-                    }).toList(),
-                  );
-                }),
-              ),
-              GetBuilder<AccountController>(builder: (controller) {
-                return controller.platformFile == null
-                    ? GestureDetector(
-                        onTap: () => controller.selectFile(),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 20.0),
-                          child: DottedBorder(
-                            borderType: BorderType.RRect,
-                            radius: Radius.circular(10),
-                            dashPattern: const [10, 4],
-                            strokeCap: StrokeCap.round,
-                            color: Colors.blue.shade400,
-                            child: Container(
-                              width: double.infinity,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue.shade50.withOpacity(.3),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Iconsax.folder_open,
-                                    color: Colors.blue,
-                                    size: 40,
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    'Chọn ảnh của bạn',
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 15,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                    IconButton(
+                      onPressed: () => controller.showQRCode(context),
+                      icon: Icon(Icons.qr_code, color: kColor4),
+                    ),
+                  ],
+                ),
+                Text(
+                  "địa chỉ".toUpperCase(),
+                  style: GoogleFonts.openSans(
+                    fontSize: 28,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  height: 75,
+                  width: 75,
+                  child: Image.asset("assets/blank.png"),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Obx(
+                  () => Text(
+                    (controller.address.value.substring(0, 5) +
+                        "..." +
+                        controller.address.value.substring(
+                            controller.address.value.length - 5,
+                            controller.address.value.length - 1)),
+                    style: GoogleFonts.openSans(
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => controller.copyAddress(),
+                  icon: Icon(Icons.copy),
+                ),
+                SizedBox(
+                  height: 120,
+                  width: double.infinity,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: kColor4,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Số dư".toUpperCase(),
+                            style: GoogleFonts.openSans(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      )
-                    : Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Ảnh được chọn',
-                                style: TextStyle(
-                                  color: Colors.grey.shade400,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.shade200,
-                                      offset: Offset(0, 1),
-                                      blurRadius: 3,
-                                      spreadRadius: 2,
-                                    )
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.file(
-                                          controller.file!,
-                                          width: 70,
-                                        )),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            controller.platformFile!.name,
-                                            style: GoogleFonts.openSans(
-                                                fontSize: 14,
-                                                color: Colors.black),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            '${(controller.platformFile!.size / 1024).ceil()} KB',
-                                            style: GoogleFonts.openSans(
-                                                fontSize: 13,
-                                                color: Colors.grey.shade500),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () => controller.removeFile(),
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: kColor4,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          SizedBox(
+                            height: 5,
                           ),
-                        ),
-                      );
-              }),
-              TextButton(
-                onPressed: () => controller.createPicture(context),
-                child: Text("Upload"),
-              ),
-              // RoundedLoadingButton(
-              //   borderRadius: 35,
-              //   height: 55,
-              //   width: double.infinity,
-              //   color: kColor4,
-              //   successColor: kColor4,
-              //   controller: controller.btnController,
-              //   onPressed: () => controller.uploadImage(),
-              //   child: Text(
-              //     "Submit".toUpperCase(),
-              //     style: GoogleFonts.openSans(
-              //       color: Colors.white,
-              //       fontSize: 18,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              // ),
-            ],
+                          Obx(() {
+                            final status = controller.status.value;
+                            if (status == Status.loading) {
+                              return CircularProgressIndicator(
+                                color: Colors.white,
+                              );
+                            } else {
+                              return Text(
+                                "${controller.balance.value.toPrecision(4)} ETH",
+                                style: GoogleFonts.openSans(
+                                  fontSize: 30,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }
+                          }),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.rMyProduct),
+                  child: Container(
+                    height: 55,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: kColor4),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Sản phẩm của tôi",
+                      style: GoogleFonts.openSans(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () => controller.openURl(),
+                  child: Container(
+                    height: 55,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: kColor4),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Xem trên Etherscan",
+                      style: GoogleFonts.openSans(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.rSignIn),
+                  child: Container(
+                    height: 55,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Thay đổi địa chỉ",
+                      style: GoogleFonts.openSans(
+                        fontSize: 15,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

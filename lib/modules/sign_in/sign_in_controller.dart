@@ -14,6 +14,7 @@ class SignInController extends GetxController {
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   var isHidePassword = true.obs;
+  String address = "";
 
   void turnOnOffHiddenPassword() {
     isHidePassword.value = !isHidePassword.value;
@@ -22,10 +23,6 @@ class SignInController extends GetxController {
 
   void resetValue() {
     privateKeyController.text = "";
-  }
-
-  void signIn() {
-    Get.toNamed(AppRoutes.rHome);
   }
 
   checkMetaMaskInstalled(BuildContext context) async {
@@ -72,10 +69,12 @@ class SignInController extends GetxController {
       await EthProvider()
           .getCredentials(privateKeyController.text)
           .then((value) {
+        address = value;
+        update();
         print("oke");
         btnController.success();
         Future.delayed(Duration(seconds: 2))
-            .then((value) => Get.offNamed(AppRoutes.rAccount));
+            .then((value) => Get.offAllNamed(AppRoutes.rHome));
       }).onError((error, stackTrace) {
         print("error");
         btnController.error();

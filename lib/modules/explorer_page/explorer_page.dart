@@ -24,193 +24,229 @@ class ExplorerPage extends GetWidget<ExplorerController> {
           onRefresh: () => controller.getListPicture(),
           child: Column(
             children: [
-              Header(isHomePage: false),
+              Obx(() => Header(
+                    isHomePage: false,
+                    isSignIn: controller.isSignIn.value,
+                  )),
               SizedBox(
                 height: 5,
               ),
-              Expanded(
-                child: AnimationLimiter(
-                  child: GetBuilder<ExplorerController>(builder: (context) {
-                    return ListView.separated(
-                      itemCount: controller.allPicture.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: const Duration(seconds: 1),
-                          child: SlideAnimation(
-                            verticalOffset: 50.0,
-                            child: FadeInAnimation(
-                              child: SizedBox(
-                                height: 280,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(25),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.shade200,
-                                        offset: Offset(-1, 1),
-                                        spreadRadius: 2,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 220,
-                                        margin: EdgeInsets.only(top: 5),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 15.0,
-                                            vertical: 10,
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                height: 200,
-                                                width: 170,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image:
-                                                        CachedNetworkImageProvider(
-                                                      "https://ipfs.infura.io/ipfs/${controller.allPicture[index].ipfsInfo}",
+              Obx(() {
+                final status = controller.status.value;
+                if (status == Status.loading) {
+                  return Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: kColor4,
+                      ),
+                    ),
+                  );
+                } else if (status == Status.error) {
+                  return Expanded(
+                    child: Center(
+                      child: Icon(Icons.error),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: AnimationLimiter(
+                      child: ListView.separated(
+                        itemCount: controller.allPicture.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(seconds: 1),
+                            child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: FadeInAnimation(
+                                child: SizedBox(
+                                  height: 280,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(25),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade200,
+                                          offset: Offset(-1, 1),
+                                          spreadRadius: 2,
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 220,
+                                          margin: EdgeInsets.only(top: 5),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 15.0,
+                                              vertical: 10,
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 200,
+                                                  width: 170,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image:
+                                                          CachedNetworkImageProvider(
+                                                        "https://ipfs.infura.io/ipfs/${controller.allPicture[index].ipfsInfo}",
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                width: 14,
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                          horizontal: 10.0,
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            CircleAvatar(
-                                                              backgroundImage:
-                                                                  Image.network(
-                                                                          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png")
-                                                                      .image,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Flexible(
-                                                              fit: FlexFit.loose,
-                                                              child: Text(
-                                                                controller
-                                                                    .allPicture[
-                                                                        index]
-                                                                    .accountAddress,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style: GoogleFonts
-                                                                    .openSans(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 17,
+                                                SizedBox(
+                                                  width: 14,
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Center(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                            horizontal: 10.0,
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              CircleAvatar(
+                                                                backgroundImage:
+                                                                    Image.network(
+                                                                            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png")
+                                                                        .image,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Flexible(
+                                                                fit: FlexFit
+                                                                    .loose,
+                                                                child: Text(
+                                                                  controller
+                                                                      .allPicture[
+                                                                          index]
+                                                                      .accountAddress,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: GoogleFonts
+                                                                      .openSans(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        17,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Text(
-                                                      controller
-                                                          .allPicture[index].name,
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: GoogleFonts.openSans(
-                                                        fontWeight:
-                                                            FontWeight.w800,
-                                                        fontSize: 18,
+                                                      SizedBox(
+                                                        height: 10,
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Text(
-                                                      controller.allPicture[index]
-                                                          .description,
-                                                      maxLines: 5,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: GoogleFonts.openSans(
-                                                        fontSize: 15,
-                                                        color: kColor9,
+                                                      Text(
+                                                        controller
+                                                            .allPicture[index]
+                                                            .name,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                          fontSize: 18,
+                                                        ),
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                        child: Center(
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.red,
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                        controller
+                                                            .allPicture[index]
+                                                            .description,
+                                                        maxLines: 5,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                          fontSize: 15,
+                                                          color: kColor9,
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    Icons.coffee,
-                                                    color: Colors.brown,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          height: 30,
+                                          child: Center(
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons.favorite,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ),
+                                                      Text("${0}"),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.coffee,
+                                                      color: Colors.brown,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 15,
-                        );
-                      },
-                    );
-                  }),
-                ),
-              ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 15,
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                }
+              }),
             ],
           ),
         ),

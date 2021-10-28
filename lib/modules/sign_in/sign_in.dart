@@ -124,7 +124,7 @@ class SignInScreen extends GetWidget<SignInController> {
                 controller: controller.btnController,
                 onPressed: () => controller.getAddress(context),
                 child: Text(
-                  "Đăng nhập".toUpperCase(),
+                  "Nhập tài khoản".toUpperCase(),
                   style: GoogleFonts.openSans(
                     color: Colors.white,
                     fontSize: 18,

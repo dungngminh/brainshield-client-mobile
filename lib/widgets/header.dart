@@ -8,9 +8,11 @@ class Header extends StatelessWidget {
   const Header({
     Key? key,
     this.isHomePage = true,
+    required this.isSignIn,
   }) : super(key: key);
 
   final bool isHomePage;
+  final bool isSignIn;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -41,16 +43,30 @@ class Header extends StatelessWidget {
             ],
           ),
         ),
-        GestureDetector(
-          onTap: () => Get.toNamed(AppRoutes.rSignIn),
-          child: SizedBox(
-            width: 45,
-            height: 45,
-            child: CircleAvatar(
-              backgroundImage: Image.asset('assets/metamask.png').image,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        Row(
+          children: [
+            isSignIn
+                ? IconButton(
+                    splashRadius: 24.0,
+                    onPressed: () => Get.toNamed(AppRoutes.rAddProduct),
+                    icon: Icon(Icons.upload_file, color: kColor4),
+                  )
+                : SizedBox(),
+            SizedBox(
+              width: 5,
             ),
-          ),
+            GestureDetector(
+              onTap: () => isSignIn
+                  ? Get.toNamed(AppRoutes.rAccount)
+                  : Get.toNamed(AppRoutes.rSignIn),
+              child: CircleAvatar(
+                backgroundImage: isSignIn
+                    ? Image.asset('assets/blank.png').image
+                    : Image.asset('assets/metamask.png').image,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              ),
+            ),
+          ],
         ),
       ],
     );

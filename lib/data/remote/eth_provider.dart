@@ -1,7 +1,5 @@
-import 'dart:convert';
-import 'package:brainshield/PictureAssets.g.dart';
+import 'package:brainshield/data/PictureAssets.g.dart';
 import 'package:brainshield/data/models/picture.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -10,12 +8,12 @@ class EthProvider {
   late Web3Client _ethClient;
   Credentials? _credentials;
   EthereumAddress? _ownAddress;
-  String? _address;
-  String? get address => _address;
+  String _address = "";
+  String get address => _address;
   final String _contractAddress = "0xD0d5AbCe71CE775214080eD751b960e704984F59";
   PictureAssets? _pictureAssets;
   static final EthProvider _ = EthProvider._internal();
-  List<Picture> listPicture = [];
+  List<Picture> myList = [];
   int countPicture = 0;
 
   factory EthProvider() {
@@ -38,32 +36,12 @@ class EthProvider {
     await getPictureList();
   }
 
-  Future<DeployedContract> loadContract() async {
-    String abi = await rootBundle.loadString("lib/PictureAssets.abi.json");
-    var jsonAbi = jsonDecode(abi);
-    String _abiCode = jsonEncode(jsonAbi);
-
-    final contract = DeployedContract(
-      ContractAbi.fromJson(_abiCode, "PictureAssets"),
-      EthereumAddress.fromHex(_contractAddress),
-    );
-    return contract;
-  }
-
   Future<String> getCredentials(String privateKey) async {
     _credentials = EthPrivateKey.fromHex(privateKey);
     _ownAddress = await _credentials!.extractAddress();
     _address = _ownAddress.toString();
     print(_address);
-    return _address!;
-  }
-
-  Future<List<dynamic>> query(String functionName, List<dynamic> params) async {
-    final contract = await loadContract();
-    final ethFunction = contract.function(functionName);
-    final result = await _ethClient.call(
-        contract: contract, function: ethFunction, params: params);
-    return result;
+    return _address;
   }
 
   Future<num> getBalance() async {
@@ -78,6 +56,8 @@ class EthProvider {
   }
 
   Future<List<Picture>> getPictureList() async {
+    List<Picture> listPicture = [];
+    myList.clear();
     int count = countPicture;
     for (int i = 1; i <= count; i++) {
       var tempPicture = await _pictureAssets!.pictures(BigInt.from(i));
@@ -92,12 +72,13 @@ class EthProvider {
         ),
       );
     }
+    myList = listPicture;
     return listPicture;
   }
 
   List<Picture> getMyAccountPicture() {
     List<Picture> accountPicture = [];
-    for (var element in listPicture) {
+    for (var element in myList) {
       if (element.accountAddress == _ownAddress.toString()) {
         accountPicture.add(element);
       }

@@ -2,10 +2,20 @@ import 'package:brainshield/data/remote/eth_provider.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  String? address;
+  String address = "";
+  var isSignIn = false.obs;
+
   @override
-  void onInit() {    
+  Future<void> onInit() async {
     super.onInit();
-    EthProvider().initProvider();
+    if (EthProvider().address != "") {
+      print("Hello");
+      address = EthProvider().address;
+    }
+    if (address != "") {
+      isSignIn.value = true;
+    }
+    update();
+    await EthProvider().initProvider();
   }
 }
