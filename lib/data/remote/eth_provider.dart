@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:brainshield/data/PictureAssets.g.dart';
 import 'package:brainshield/data/models/picture.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -12,7 +13,7 @@ class EthProvider {
   EthereumAddress? _ownAddress;
   String _address = "";
   String get address => _address;
-  final String _contractAddress = "0xD0d5AbCe71CE775214080eD751b960e704984F59";
+  final String _contractAddress = dotenv.env['ContractAddress']!;
   PictureAssets? _pictureAssets;
   static final EthProvider _ = EthProvider._internal();
   List<Picture> listPicture = [];

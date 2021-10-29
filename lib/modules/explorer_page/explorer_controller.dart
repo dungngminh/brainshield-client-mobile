@@ -165,7 +165,11 @@ class ExplorerController extends GetxController {
                                     double.tryParse(valueController.text)!)
                                 .then((value) {
                               MyToast.showToast("Mã giao dịch:\n" + value);
-                              MyToast.showToast("Ủng hộ thành công");
+                              MyToast.showToast("Ủng hộ thành công cho\n" +
+                                  toAddress.substring(0, 5) +
+                                  "..." +
+                                  toAddress.substring(toAddress.length - 5,
+                                      toAddress.length - 1));
                               valueController.text = "";
                               Get.back();
                               Get.back();
