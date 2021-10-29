@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:brainshield/data/repository/eth_repo.dart';
 import 'package:brainshield/data/repository/ipfs_repo.dart';
 import 'package:brainshield/routes/app_pages.dart';
+import 'package:brainshield/widgets/my_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -51,7 +51,7 @@ class AddProductController extends GetxController {
             return AlertDialog(
               title: Text("Xác nhận"),
               content: Text(
-                "Bạn xác nhận sẽ đăng sản phẩm?\n\nĐĂNG SẢN PHẨM\nSẼ THỰC HIỆN GIAO DỊCH",
+                "Bạn xác nhận sẽ đăng sản phẩm?\nĐĂNG SẢN PHẨM\nSẼ THỰC HIỆN GIAO DỊCH",
                 textAlign: TextAlign.center,
               ),
               actions: [
@@ -74,27 +74,20 @@ class AddProductController extends GetxController {
                         });
                     String hashCodeImage = await IPFSRepository()
                         .uploadImage(platformFile!.name, file!);
+                    MyToast.showToast("IPFS:\n" + hashCodeImage);
                     await EthRepository()
                         .createPicture(hashCodeImage, nameController.text,
                             descriptionController.text, 0)
                         .then((value) async {
-                      Fluttertoast.showToast(
-                        msg: "Đã upload thành công",
-                        toastLength: Toast.LENGTH_SHORT,
-                        backgroundColor: Colors.grey,
-                        textColor: Colors.white,
-                      );
+                      MyToast.showToast("Mã giao dịch:\n" + value);
+                      MyToast.showToast("Đã upload thành công");
                       Get.back();
                       Get.back();
                       await Future.delayed(Duration(seconds: 2))
                           .then((value) => Get.offNamed(AppRoutes.rHome));
                     }).catchError((e) {
-                      Fluttertoast.showToast(
-                        msg: "Giao dịch không thành công",
-                        toastLength: Toast.LENGTH_SHORT,
-                        backgroundColor: Colors.grey,
-                        textColor: Colors.white,
-                      );
+                      MyToast.showToast(
+                          "Giao dịch không thành công,\nvui lòng thử lại");
                       Get.back();
                       Get.back();
                     });

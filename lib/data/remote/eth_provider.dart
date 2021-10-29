@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:brainshield/data/PictureAssets.g.dart';
 import 'package:brainshield/data/models/picture.dart';
 import 'package:http/http.dart';
@@ -10,7 +12,7 @@ class EthProvider {
   EthereumAddress? _ownAddress;
   String _address = "";
   String get address => _address;
-  final String _contractAddress = "0xB08d7aFDe68eD92fB7dee82a9384cA032098e89E";
+  final String _contractAddress = "0xD0d5AbCe71CE775214080eD751b960e704984F59";
   PictureAssets? _pictureAssets;
   static final EthProvider _ = EthProvider._internal();
   List<Picture> listPicture = [];
@@ -25,8 +27,9 @@ class EthProvider {
   Future<void> initProvider() async {
     _httpClient = Client();
     _ethClient = Web3Client(
-        "https://ropsten.infura.io/v3/241f03331919423cba6145c7a2bcc61a",
-        _httpClient);
+      "https://ropsten.infura.io/v3/241f03331919423cba6145c7a2bcc61a",
+      _httpClient,
+    );
     _pictureAssets = PictureAssets(
         address: EthereumAddress.fromHex(_contractAddress), client: _ethClient);
     print(_httpClient.toString());
@@ -114,5 +117,17 @@ class EthProvider {
     } catch (_) {
       throw "Fail";
     }
+  }
+
+  Future<String> donateForAuthor(String toAddress, double value) async {
+    return await _ethClient.sendTransaction(
+      _credentials!,
+      Transaction(
+        to: EthereumAddress.fromHex(toAddress),
+        value: EtherAmount.fromUnitAndValue(
+            EtherUnit.wei, BigInt.from(value * pow(10, 18))),
+      ),
+      chainId: 3,
+    );
   }
 }

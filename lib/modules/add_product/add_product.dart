@@ -16,15 +16,20 @@ class AddProductScreen extends GetView<AddProductController> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 45.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 45.0),
             child: Column(
               children: [
-                Row(children: [
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Icon(Icons.arrow_back, color: kColor4),
-                  )
-                ]),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        splashRadius: 20,
+                        padding: EdgeInsets.zero,
+                        onPressed: () => Get.back(),
+                        icon: Icon(Icons.arrow_back, color: kColor4),
+                      ),
+                    ]),
                 SizedBox(
                   height: 20,
                 ),
@@ -70,12 +75,13 @@ class AddProductScreen extends GetView<AddProductController> {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
-                      borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(4.0)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child:
-                          GetBuilder<AddProductController>(builder: (controller) {
+                      child: GetBuilder<AddProductController>(
+                          builder: (controller) {
                         return DropdownButton<String>(
                           hint: Text(" Thể loại"),
                           alignment: Alignment.centerLeft,
@@ -174,7 +180,8 @@ class AddProductScreen extends GetView<AddProductController> {
                                   child: Row(
                                     children: [
                                       ClipRRect(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           child: Image.file(
                                             controller.file!,
                                             width: 70,
@@ -207,7 +214,8 @@ class AddProductScreen extends GetView<AddProductController> {
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () => controller.removeFile(),
+                                        onPressed: () =>
+                                            controller.removeFile(),
                                         icon: Icon(
                                           Icons.close,
                                           color: kColor4,

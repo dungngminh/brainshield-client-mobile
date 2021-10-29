@@ -6,15 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:badges/badges.dart';
 
 class DetailProduct extends StatelessWidget {
-  const DetailProduct(
-      {Key? key,
-      required this.ipfsInfo,
-      required this.accountAddress,
-      required this.name,
-      required this.description,
-      required this.vote,
-      this.isExplorerPage = true})
-      : super(key: key);
+  const DetailProduct({
+    Key? key,
+    required this.ipfsInfo,
+    required this.accountAddress,
+    required this.name,
+    required this.description,
+    required this.vote,
+    this.isExplorerPage = true,
+  }) : super(key: key);
 
   final String ipfsInfo;
   final String accountAddress;
@@ -40,36 +40,16 @@ class DetailProduct extends StatelessWidget {
                       onTap: () => Get.back(),
                       child: Icon(Icons.arrow_back, color: kColor4),
                     ),
-                    isExplorerPage
-                        ? Row(
-                            children: [
-                              Badge(
-                                badgeContent: Text(
-                                  "$vote",
-                                  style:
-                                      GoogleFonts.openSans(color: Colors.white),
-                                ),
-                                child: Icon(Icons.favorite, color: Colors.pink),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.coffee,
-                                  color: Colors.brown,
-                                ),
-                                onPressed: () {},
-                              ),
-                            ],
-                          )
-                        : Badge(
-                            badgeContent: Text(
-                              "$vote",
-                              style: GoogleFonts.openSans(color: Colors.white),
-                            ),
-                            child: Icon(Icons.favorite, color: Colors.pink),
-                          ),
+                    InkWell(
+                      onTap: () {},
+                      child: Badge(
+                        badgeContent: Text(
+                          "$vote",
+                          style: GoogleFonts.openSans(color: Colors.white),
+                        ),
+                        child: Icon(Icons.favorite, color: Colors.pink),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(

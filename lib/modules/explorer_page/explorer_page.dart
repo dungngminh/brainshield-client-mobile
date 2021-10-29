@@ -74,6 +74,7 @@ class ExplorerPage extends GetWidget<ExplorerController> {
                                         description: controller
                                             .allPicture[index].description,
                                         vote: controller.allPicture[index].vote,
+                                        
                                       ),
                                     ),
                                     child: SizedBox(
@@ -263,28 +264,58 @@ class ExplorerPage extends GetWidget<ExplorerController> {
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Badge(
-                                                            badgeContent: Text(
-                                                              "${controller.allPicture[index].vote}",
-                                                              style: GoogleFonts
-                                                                  .openSans(
-                                                                      color: Colors
-                                                                          .white),
+                                                          Tooltip(
+                                                            message:
+                                                                "Vote sản phẩm",
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                controller.voteProduct(
+                                                                    controller
+                                                                        .allPicture[
+                                                                            index]
+                                                                        .id,
+                                                                    controller
+                                                                        .allPicture[
+                                                                            index]
+                                                                        .accountAddress,
+                                                                    context);
+                                                              },
+                                                              child: Badge(
+                                                                badgeContent:
+                                                                    Text(
+                                                                  "${controller.allPicture[index].vote}",
+                                                                  style: GoogleFonts
+                                                                      .openSans(
+                                                                          color:
+                                                                              Colors.white),
+                                                                ),
+                                                                child: Icon(
+                                                                    Icons
+                                                                        .favorite,
+                                                                    color: Colors
+                                                                        .pink),
+                                                              ),
                                                             ),
-                                                            child: Icon(
-                                                                Icons.favorite,
-                                                                color: Colors
-                                                                    .pink),
                                                           ),
                                                         ],
                                                       ),
                                                     ),
                                                     Expanded(
-                                                      child: IconButton(
-                                                        onPressed: () {},
-                                                        icon: Icon(
-                                                          Icons.coffee,
-                                                          color: Colors.brown,
+                                                      child: Tooltip(
+                                                        message:
+                                                            "Ủng hộ sản phẩm",
+                                                        child: IconButton(
+                                                          onPressed: () => controller
+                                                              .donateForAuthor(
+                                                                  controller
+                                                                      .allPicture[
+                                                                          index]
+                                                                      .accountAddress,
+                                                                  context),
+                                                          icon: Icon(
+                                                            Icons.coffee,
+                                                            color: Colors.brown,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

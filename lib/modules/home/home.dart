@@ -123,7 +123,7 @@ class HomePage extends GetView<HomeController> {
                                 style: GoogleFonts.openSans(
                                     fontStyle: FontStyle.italic),
                               ),
-                              Icon(Icons.expand_more),
+                              Icon(Icons.expand_more, size: 26.0),
                             ],
                           ),
                         ),

@@ -17,10 +17,11 @@ class SignInScreen extends GetWidget<SignInController> {
           child: Column(
             children: [
               Row(children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Icon(Icons.arrow_back, color: kColor4),
-                )
+                IconButton(
+                  splashRadius: 20,
+                  onPressed: () => Get.back(),
+                  icon: Icon(Icons.arrow_back, color: kColor4),
+                ),
               ]),
               Center(
                 child: SizedBox(
@@ -56,12 +57,16 @@ class SignInScreen extends GetWidget<SignInController> {
                 child: Stack(
                   children: [
                     Obx(
-                      () => TextFormField(
+                      () => TextField(
                         controller: controller.privateKeyController,
                         style: GoogleFonts.openSans(
                           color: kColor4,
                           fontWeight: FontWeight.w600,
                         ),
+                        onSubmitted: (value) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          controller.getAddress(context);
+                        },
                         textAlignVertical: TextAlignVertical.center,
                         obscureText: controller.isHidePassword.value,
                         decoration: InputDecoration(

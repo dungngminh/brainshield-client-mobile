@@ -10,4 +10,8 @@ class EthRepository {
     return EthProvider()
         .createPicture(ipfsInfo, name, description, BigInt.from(vote));
   }
+
+  Future<String> donateForAuthor(String toAddress, double value) {
+    return EthProvider().donateForAuthor(toAddress, value);
+  }
 }
