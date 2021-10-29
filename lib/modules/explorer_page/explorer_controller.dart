@@ -29,7 +29,6 @@ class ExplorerController extends GetxController {
   getListPicture() async {
     status(Status.loading);
     try {
-      await EthProvider().initProvider();
       allPicture = await EthProvider().getPictureList();
       status(Status.done);
     } catch (_) {

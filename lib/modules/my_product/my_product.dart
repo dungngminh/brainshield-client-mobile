@@ -1,5 +1,6 @@
 import 'package:brainshield/core/theme.dart';
 import 'package:brainshield/modules/my_product/my_product_controller.dart';
+import 'package:brainshield/widgets/detail_product.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -67,97 +68,119 @@ class MyProductScreen extends GetView<MyProductController> {
                                 child: SlideAnimation(
                                   verticalOffset: 50.0,
                                   child: FadeInAnimation(
-                                    child: SizedBox(
-                                      height: 230,
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey.shade200,
-                                              offset: Offset(-1, 1),
-                                              spreadRadius: 2,
-                                            )
-                                          ],
+                                    child: GestureDetector(
+                                      onTap: () => Get.to(
+                                        () => DetailProduct(
+                                          ipfsInfo:
+                                              controller.myList[index].ipfsInfo,
+                                          accountAddress: controller
+                                              .myList[index].accountAddress,
+                                          name: controller.myList[index].name,
+                                          description: controller
+                                              .myList[index].description,
+                                          vote: controller.myList[index].vote,
+                                          isExplorerPage: false,
                                         ),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 220,
-                                              margin: EdgeInsets.only(top: 5),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 15.0,
-                                                  vertical: 10,
-                                                ),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height: 200,
-                                                      width: 170,
-                                                      decoration: BoxDecoration(
-                                                        image: DecorationImage(
+                                      ),
+                                      child: SizedBox(
+                                        height: 230,
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.shade200,
+                                                offset: Offset(-1, 1),
+                                                spreadRadius: 2,
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 220,
+                                                margin: EdgeInsets.only(top: 5),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 15.0,
+                                                    vertical: 10,
+                                                  ),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        height: 200,
+                                                        width: 170,
+                                                        decoration:
+                                                            BoxDecoration(
                                                           image:
-                                                              CachedNetworkImageProvider(
-                                                            "https://ipfs.infura.io/ipfs/${controller.myList[index].ipfsInfo}",
+                                                              DecorationImage(
+                                                            image:
+                                                                CachedNetworkImageProvider(
+                                                              "https://ipfs.infura.io/ipfs/${controller.myList[index].ipfsInfo}",
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 14,
-                                                    ),
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Text(
-                                                            controller.myList[index].name,
-                                                            maxLines: 2,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: GoogleFonts
-                                                                .openSans(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w800,
-                                                              fontSize: 18,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Text(
-                                                            controller.myList[index].description,
-                                                            maxLines: 5,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: GoogleFonts
-                                                                .openSans(
-                                                              fontSize: 15,
-                                                              color: kColor9,
-                                                            ),
-                                                          )
-                                                        ],
+                                                      SizedBox(
+                                                        width: 14,
                                                       ),
-                                                    ),
-                                                  ],
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Text(
+                                                              controller
+                                                                  .myList[index]
+                                                                  .name,
+                                                              maxLines: 2,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                                fontSize: 18,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Text(
+                                                              controller
+                                                                  .myList[index]
+                                                                  .description,
+                                                              maxLines: 5,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: GoogleFonts
+                                                                  .openSans(
+                                                                fontSize: 15,
+                                                                color: kColor9,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

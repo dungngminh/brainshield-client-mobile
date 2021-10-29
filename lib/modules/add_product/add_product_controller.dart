@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:brainshield/data/repository/eth_repo.dart';
 import 'package:brainshield/data/repository/ipfs_repo.dart';
-import 'package:brainshield/data/remote/eth_provider.dart';
 import 'package:brainshield/routes/app_pages.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +57,7 @@ class AddProductController extends GetxController {
               actions: [
                 TextButton(
                   onPressed: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     showDialog(
                         context: context,
                         builder: (context) {
@@ -73,10 +74,10 @@ class AddProductController extends GetxController {
                         });
                     String hashCodeImage = await IPFSRepository()
                         .uploadImage(platformFile!.name, file!);
-                    await EthProvider()
+                    await EthRepository()
                         .createPicture(hashCodeImage, nameController.text,
-                            descriptionController.text, BigInt.from(0))
-                        .then((value) {
+                            descriptionController.text, 0)
+                        .then((value) async {
                       Fluttertoast.showToast(
                         msg: "Đã upload thành công",
                         toastLength: Toast.LENGTH_SHORT,
@@ -85,10 +86,18 @@ class AddProductController extends GetxController {
                       );
                       Get.back();
                       Get.back();
+                      await Future.delayed(Duration(seconds: 2))
+                          .then((value) => Get.offNamed(AppRoutes.rHome));
+                    }).catchError((e) {
+                      Fluttertoast.showToast(
+                        msg: "Giao dịch không thành công",
+                        toastLength: Toast.LENGTH_SHORT,
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.white,
+                      );
+                      Get.back();
+                      Get.back();
                     });
-
-                    await Future.delayed(Duration(seconds: 2))
-                        .then((value) => Get.offNamed(AppRoutes.rHome));
                   },
                   child: Text("Xác nhận"),
                 ),

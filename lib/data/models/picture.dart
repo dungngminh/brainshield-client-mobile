@@ -4,7 +4,7 @@ class Picture {
   final String ipfsInfo;
   final String name;
   final String description;
-  final BigInt vote;
+  final int vote;
 
   Picture({
     required this.id,

@@ -122,7 +122,10 @@ class SignInScreen extends GetWidget<SignInController> {
                 color: kColor4,
                 successColor: kColor4,
                 controller: controller.btnController,
-                onPressed: () => controller.getAddress(context),
+                onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  controller.getAddress(context);
+                },
                 child: Text(
                   "Nhập tài khoản".toUpperCase(),
                   style: GoogleFonts.openSans(

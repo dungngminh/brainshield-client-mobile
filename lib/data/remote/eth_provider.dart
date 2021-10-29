@@ -10,10 +10,10 @@ class EthProvider {
   EthereumAddress? _ownAddress;
   String _address = "";
   String get address => _address;
-  final String _contractAddress = "0xD0d5AbCe71CE775214080eD751b960e704984F59";
+  final String _contractAddress = "0xB08d7aFDe68eD92fB7dee82a9384cA032098e89E";
   PictureAssets? _pictureAssets;
   static final EthProvider _ = EthProvider._internal();
-  List<Picture> myList = [];
+  List<Picture> listPicture = [];
   int countPicture = 0;
 
   factory EthProvider() {
@@ -56,47 +56,63 @@ class EthProvider {
   }
 
   Future<List<Picture>> getPictureList() async {
-    List<Picture> listPicture = [];
-    myList.clear();
-    int count = countPicture;
+    List<Picture> listLoad = [];
+    listPicture.clear();
+    int count = await getPictureCount();
     for (int i = 1; i <= count; i++) {
       var tempPicture = await _pictureAssets!.pictures(BigInt.from(i));
-      listPicture.add(
+      listLoad.add(
         Picture(
           id: i,
           accountAddress: tempPicture.accountAddress,
           ipfsInfo: tempPicture.ipfsInfo,
           name: tempPicture.name,
           description: tempPicture.description,
-          vote: tempPicture.vote,
+          vote: tempPicture.vote.toInt(),
         ),
       );
     }
-    myList = listPicture;
+    listPicture = listLoad;
     return listPicture;
   }
 
   List<Picture> getMyAccountPicture() {
     List<Picture> accountPicture = [];
-    for (var element in myList) {
-      if (element.accountAddress == _ownAddress.toString()) {
+    for (var element in listPicture) {
+      if (element.accountAddress.toLowerCase() == _ownAddress.toString()) {
         accountPicture.add(element);
       }
     }
+    print(accountPicture);
     return accountPicture;
   }
 
   Future<String> createPicture(
       String ipfsInfo, String name, String description, BigInt vote) async {
-    String result = await _pictureAssets!.createPicture(
-      _ownAddress.toString(),
-      ipfsInfo,
-      name,
-      description,
-      vote,
-      credentials: _credentials!,
-    );
-    print(result);
-    return result;
+    try {
+      String result = await _pictureAssets!.createPicture(
+        _ownAddress.toString(),
+        ipfsInfo,
+        name,
+        description,
+        vote,
+        credentials: _credentials!,
+      );
+      print(result);
+      return result;
+    } catch (_) {
+      throw "Fail";
+    }
+  }
+
+  Future<String> votePicture(BigInt id) async {
+    try {
+      String result =
+          await _pictureAssets!.votePicture(id, credentials: _credentials!);
+      print(result);
+      return result;
+    } catch (_) {
+      throw "Fail";
+    }
   }
 }
