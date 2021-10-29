@@ -15,7 +15,7 @@ class MyProductScreen extends GetView<MyProductController> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
-            left: 20.0, right: 20.0, top: 45.0, bottom: 20),
+            left: 10.0, right: 10.0, top: 45.0, bottom: 20),
         child: Column(
           children: [
             Row(children: [
